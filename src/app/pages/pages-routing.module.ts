@@ -70,12 +70,13 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'dashboard',
+      redirectTo: '../application',
       pathMatch: 'full',
     },
     {
       path: '**',
-      component: NotFoundComponent,
+      redirectTo: '../application',
+      pathMatch: 'full',
     },
   ],
 }];
