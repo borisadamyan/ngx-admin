@@ -5,6 +5,7 @@ import {MainPageComponent} from "./components/main-page/main-page.component";
 import {NotFoundComponent} from "../pages/miscellaneous/not-found/not-found.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
 import {OpsDashboardComponent} from "./components/ops-dashboard/ops-dashboard.component";
+import {OpsPingComponent} from "./components/ops-ping/ops-ping.component";
 
 const routes: Routes = [{
     path: '',
@@ -13,6 +14,10 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: OpsDashboardComponent,
+        },
+        {
+            path: 'ping',
+            component: OpsPingComponent,
         },
         // {
         //   path: 'layout',

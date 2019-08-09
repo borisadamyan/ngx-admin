@@ -3,14 +3,14 @@ import {NbMenuItem} from '@nebular/theme';
 export const APP_MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Item 1',
-        icon: 'shopping-cart-outline',
+        icon: 'pie-chart-outline',
         link: '/application/dashboard',
         home: true,
     },
     {
-        title: 'Item 1',
+        title: 'Ping',
         icon: 'keypad-outline',
-        link: '/application/dashboard',
+        link: '/application/ping',
     },
     {
         title: 'FEATURES',
