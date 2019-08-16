@@ -21,6 +21,7 @@ app = Flask(__name__, static_folder='uptime')
 CORS(app)
 api = Api(app)
 
+
 @app.route('/')
 def main():
   return render_template('index.html')
@@ -44,8 +45,9 @@ def ping_site():
   matcher = re.compile("round-trip min/avg/max/stddev = (\d+.\d+)/(\d+.\d+)/(\d+.\d+)/(\d+.\d+)")
   # print(matcher.search(out.decode()).groups())
   avg = matcher.search(out.decode()).groups()
-
-  return jsonify({'ping': pings_5, 'value': avg[0], 'time': datetime.now().timestamp()})
+  pings_6 = pings_5[0].split(':')
+  res = [pings_6[0], pings_6[1].split()]
+  return jsonify({'ping': res, 'value': avg[0], 'time': datetime.now().timestamp()})
 
 
 @app.route('/mtr', methods=['POST'])
@@ -122,6 +124,7 @@ def mtr_site():
           trace_list.append(each)
     return json.dumps({'ping': trace_list}, indent=4)
 
+
 @app.route('/trace', methods=['POST'])
 def trace_site():
   trace_list = []
@@ -164,14 +167,14 @@ def dns_site():
   data = request_data['data']
   print(data)
   host = data['url-dns']
-  ping = subprocess.Popen(
+  dns = subprocess.Popen(
     # time nslookup -type=any picsart.com
     ["dig", "any", host],
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE
   )
 
-  out, error = ping.communicate()
+  out, error = dns.communicate()
   pings_5 = out.decode().split('\n')
   print(pings_5)
   # result = re.search('com/(.*)', url)

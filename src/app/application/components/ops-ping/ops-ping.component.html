@@ -4,9 +4,9 @@
       <nb-card-header>Ping</nb-card-header>
       <nb-card-body>
         <form class="form-inline" #f="ngForm" (ngSubmit)="onSubmit(f)">
-          <input type="text" name="url" ngModel nbInput fullWidth placeholder="Page or ip address">
+          <input type="text" required name="url" ngModel nbInput fullWidth placeholder="Page or ip address">
           <!--<button type="submit" nbButton status="primary">Ping</button>-->
-          <button [disabled]="lockbtn" nbButton type="submit">Start</button>
+          <button [disabled]="lockbtn || !f.valid" nbButton type="submit">Start</button>
           <button [disabled]="!lockbtn" nbButton type="button" (click)="stopAction()">Stop</button>
         </form>
       </nb-card-body>
@@ -16,16 +16,47 @@
         <div class="col-md-6">
           <div class="pingSection">
             <div #scrollMe id="box" class="box">
-              <ul class="list">
-                <li *ngFor="let i of pingResList">
-                  {{i}}
-                </li>
-              </ul>
+              <nb-list>
+                <nb-list-item *ngFor="let i of pingResList">
+                  <div class="visited-date">
+                    {{i.ip}}
+                  </div>
+
+                  <div class="visited-pages-count">
+                    <div class="caption">{{i.ismp[0] | uppercase}}</div>
+                    <div class="value">{{i.ismp[1]}}</div>
+                  </div>
+                  <div class="visited-pages-count">
+                    <div class="caption"> {{i.tll[0] | uppercase}}</div>
+                    <div class="value"> {{i.tll[1]}}</div>
+                  </div>
+
+                  <div class="visited-percentages">
+                    <div class="caption">Time</div>
+                    <div class="delta value">
+                      <span [ngClass]="i.class"> {{i.time}}
+                        <nb-icon style="position: relative; top:2px;" icon="{{i.icon}}"></nb-icon>
+                      </span>
+                    </div>
+                  </div>
+                </nb-list-item>
+              </nb-list>
+              <!--<ul class="list">-->
+              <!--<li *ngFor="let i of pingResList">-->
+              <!--{{i.ip}} {{i.ismp}} {{i.tll}}-->
+              <!--time = <span [ngClass]="i.class"> {{i.time}}-->
+              <!--<nb-icon style="position: relative; top:2px;" icon="{{i.icon}}"></nb-icon>-->
+              <!--</span>-->
+              <!--</li>-->
+              <!--</ul>-->
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <nb-card-body>
+            <ngx-ops-chartjs-line
+              [chartData]="chartData"
+            ></ngx-ops-chartjs-line>
           </nb-card-body>
         </div>
       </div>

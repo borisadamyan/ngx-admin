@@ -12,6 +12,11 @@ export const APP_MENU_ITEMS: NbMenuItem[] = [
         icon: 'keypad-outline',
         link: '/application/ping',
     },
+  {
+        title: 'Traceroute',
+        icon: 'flip-outline',
+        link: '/application/traceroute',
+    },
     {
         title: 'FEATURES',
         group: true,

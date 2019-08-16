@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header>Traceroute</nb-card-header>
+      <nb-card-body>
+        <form class="form-inline" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <input type="text" required name="url-trace" ngModel nbInput fullWidth placeholder="Page or ip address">
+          <!--<button type="submit" nbButton status="primary">Ping</button>-->
+          <button
+            [disabled]="!f.valid"
+            nbButton status="info" size="medium"
+            [nbSpinner]="loadingLargeGroup" nbSpinnerStatus="info" nbSpinnerMessage="">
+            Start
+          </button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+    <div class="row">
+      <div class="col-md-12">
+        <nb-card class="list-card">
+          <nb-card-header [nbSpinner]="loadingLargeGroup" nbSpinnerStatus="primary">Route
+            <nb-icon style="position: relative; top:2px;" icon="arrowhead-right-outline"></nb-icon>
+            {{routeTo}}
+          </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+              <nb-list-item *ngFor="let i of traceResList">
+                {{i.res}} - {{i.city}} - {{i.prov}} - {{i.country}}
+              </nb-list-item>
+            </nb-list>
+          </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+  </div>
+</div>

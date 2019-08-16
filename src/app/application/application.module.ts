@@ -3,7 +3,10 @@ import {CommonModule} from '@angular/common';
 import {MiscellaneousModule} from "../pages/miscellaneous/miscellaneous.module";
 import {ECommerceModule} from "../pages/e-commerce/e-commerce.module";
 import {DashboardModule} from "../pages/dashboard/dashboard.module";
-import {NbCardModule, NbInputModule, NbMenuModule, NbButtonModule, NbIconModule} from "@nebular/theme";
+import {
+  NbCardModule, NbInputModule, NbMenuModule, NbButtonModule, NbIconModule, NbListModule,
+  NbSpinnerModule
+} from "@nebular/theme";
 import {ThemeModule} from "../@theme/theme.module";
 import {ApplicationRoutingModule} from "./application-routing.module";
 import {MainPageComponent} from "./components/main-page/main-page.component";
@@ -13,8 +16,9 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {ChartModule} from "angular2-chartjs";
 import {OpsPingComponent} from './components/ops-ping/ops-ping.component';
 import {FormsModule} from "@angular/forms";
-import { OpsTimeChartComponent } from './components/ops-ping/ops-time-chart/ops-time-chart.component';
+import {OpsTimeChartComponent} from './components/ops-ping/ops-time-chart/ops-time-chart.component';
 import {NgxEchartsModule} from "ngx-echarts";
+import {OpsTracerouteComponent} from './components/ops-traceroute/ops-traceroute.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,7 @@ import {NgxEchartsModule} from "ngx-echarts";
     OpsChartjsLineComponent,
     OpsPingComponent,
     OpsTimeChartComponent,
+    OpsTracerouteComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +44,8 @@ import {NgxEchartsModule} from "ngx-echarts";
     ChartModule,
     FormsModule,
     NbIconModule,
+    NbListModule,
+    NbSpinnerModule,
     NgxEchartsModule,
   ],
 })
