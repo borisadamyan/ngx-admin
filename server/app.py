@@ -50,6 +50,44 @@ def ping_site():
   return jsonify({'ping': res, 'value': avg[0], 'time': datetime.now().timestamp()})
 
 
+@app.route('/trace', methods=['POST'])
+def trace_site():
+  trace_list = []
+  request_data = request.get_json()
+  data = request_data['data']
+  print(data)
+  host = data['url-trace']
+
+  trace_result = subprocess.check_output(["traceroute", "-m12", host]).decode()
+  lst = trace_result.split('\n')
+  del lst[0]
+  del lst[-1]
+  for line in lst:
+    curr_ip = line.split()[2].strip('()')
+    curr_ip_chunks = curr_ip.split('.')
+    if len(curr_ip_chunks) == 4:
+      if curr_ip_chunks[0] == '192':
+        print(line, "on my network")
+        # print(curr_ip, "on my local network")
+      else:
+        import ssl
+        context = ssl._create_unverified_context()
+        responce = urlopen(
+          "https://api.ipgeolocation.io/ipgeo?apiKey=ff273f84bb4641e3a665b0aafa3c1119&ip={}&include=hostname".format(
+            curr_ip), context=context).read().decode()
+        dt = json.loads(responce)
+        print(line, dt["city"], dt["state_prov"], dt["country_name"])
+        each = {
+          "res": line,
+          "city": dt["city"],
+          "prov": dt["state_prov"],
+          "country": dt["country_name"]
+        }
+        trace_list.append(each)
+        # print(curr_ip, dt["city"], dt["state_prov"], dt["country_name"])
+  return json.dumps(trace_list, indent=4)
+
+
 @app.route('/mtr', methods=['POST'])
 def mtr_site():
   request_data = request.get_json()
@@ -125,42 +163,6 @@ def mtr_site():
     return json.dumps({'ping': trace_list}, indent=4)
 
 
-@app.route('/trace', methods=['POST'])
-def trace_site():
-  trace_list = []
-  request_data = request.get_json()
-  data = request_data['data']
-  print(data)
-  host = data['url-trace']
-
-  trace_result = subprocess.check_output(["traceroute", "-m12", host]).decode()
-  lst = trace_result.split('\n')
-  del lst[0]
-  del lst[-1]
-  for line in lst:
-    curr_ip = line.split()[2].strip('()')
-    curr_ip_chunks = curr_ip.split('.')
-    if len(curr_ip_chunks) == 4:
-      if curr_ip_chunks[0] == '192':
-        print(line, "on my network")
-        # print(curr_ip, "on my local network")
-      else:
-        responce = urlopen(
-          "https://api.ipgeolocation.io/ipgeo?apiKey=ff273f84bb4641e3a665b0aafa3c1119&ip={}&include=hostname".format(
-            curr_ip)).read().decode()
-        dt = json.loads(responce)
-        print(line, dt["city"], dt["state_prov"], dt["country_name"])
-        each = {
-          "res": line,
-          "city": dt["city"],
-          "prov": dt["state_prov"],
-          "country": dt["country_name"]
-        }
-        trace_list.append(each)
-        # print(curr_ip, dt["city"], dt["state_prov"], dt["country_name"])
-  return json.dumps(trace_list, indent=4)
-
-
 @app.route('/dns', methods=['POST'])
 def dns_site():
   request_data = request.get_json()
@@ -188,4 +190,4 @@ def dns_site():
 
 # app.wsgi_app = ProxyFix(app.wsgi_app)
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=9999, debug=True)
+  app.run(host='0.0.0.0', port=9998, debug=True)

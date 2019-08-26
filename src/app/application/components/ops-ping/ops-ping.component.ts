@@ -1,7 +1,13 @@
 import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PingService} from '../../services/ping.service';
-import {BehaviorSubject} from "rxjs/Rx";
-import {NbColorHelper, NbThemeService} from "@nebular/theme";
+import {BehaviorSubject} from 'rxjs/Rx';
+import {
+  NbColorHelper,
+  NbComponentStatus,
+  NbGlobalPhysicalPosition,
+  NbGlobalPosition,
+  NbThemeService, NbToastrService,
+} from '@nebular/theme';
 import * as moment from 'moment';
 
 @Component({
@@ -23,8 +29,21 @@ export class OpsPingComponent implements OnInit, AfterViewChecked, OnDestroy {
   lastTime = 0;
   less = false;
 
+  destroyByClick = true;
+  duration = 2500;
+  hasIcon = true;
+  position: NbGlobalPosition = NbGlobalPhysicalPosition.TOP_RIGHT;
+  preventDuplicates = false;
+  status: NbComponentStatus = 'success';
+  title = 'PING';
+  content = `Ping is started`;
+
+  statusStop: NbComponentStatus = 'danger';
+  titleStop = 'PING!';
+  contentStop = `Ping now stopped`;
 
   constructor(private pingService: PingService,
+              private toastrService: NbToastrService,
               private theme: NbThemeService) {
   }
 
@@ -39,7 +58,7 @@ export class OpsPingComponent implements OnInit, AfterViewChecked, OnDestroy {
       console.log(users);
       console.log(users['ping']);
       const time = users['ping'][1][2].split('=');
-      let line = {
+      const line = {
         ip: users['ping'][0],
         ismp: users['ping'][1][0].split('='),
         tll: users['ping'][1][1].split('='),
@@ -75,6 +94,14 @@ export class OpsPingComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   }
 
+  makeToastOk() {
+    this.showToast(this.status, this.title, this.content);
+  }
+
+  makeToastStop() {
+    this.showToast(this.statusStop, this.titleStop, this.contentStop);
+  }
+
   onSubmit(f) {
     console.log(f.value);
     this.lockbtn = true;
@@ -83,11 +110,13 @@ export class OpsPingComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.pingInterval = setInterval(() => {
       this.pingSite(f.value);
     }, 1000);
+    this.makeToastOk();
   }
 
   stopAction() {
     clearInterval(this.pingInterval);
     this.lockbtn = false;
+    this.makeToastStop();
   }
 
   ngAfterViewChecked() {
@@ -100,6 +129,23 @@ export class OpsPingComponent implements OnInit, AfterViewChecked, OnDestroy {
     } catch
       (err) {
     }
+  }
+
+  private showToast(type: NbComponentStatus, title: string, body: string) {
+    const config = {
+      status: type,
+      destroyByClick: this.destroyByClick,
+      duration: this.duration,
+      hasIcon: this.hasIcon,
+      position: this.position,
+      preventDuplicates: this.preventDuplicates,
+    };
+    const titleContent = title ? `${title}` : '';
+
+    this.toastrService.show(
+      body,
+      `${titleContent}`,
+      config);
   }
 
   ngOnDestroy() {

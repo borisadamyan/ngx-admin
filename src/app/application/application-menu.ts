@@ -2,7 +2,7 @@ import {NbMenuItem} from '@nebular/theme';
 
 export const APP_MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Item 1',
+        title: 'Home',
         icon: 'pie-chart-outline',
         link: '/application/dashboard',
         home: true,
@@ -16,6 +16,11 @@ export const APP_MENU_ITEMS: NbMenuItem[] = [
         title: 'Traceroute',
         icon: 'flip-outline',
         link: '/application/traceroute',
+    },
+  {
+        title: 'MTR',
+        icon: 'share-outline',
+        link: '/application/mtr',
     },
     {
         title: 'FEATURES',

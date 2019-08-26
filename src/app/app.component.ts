@@ -5,7 +5,7 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {AnalyticsService} from './@core/utils/analytics.service';
-import {NbThemeService} from "@nebular/theme";
+import {NbThemeService} from '@nebular/theme';
 
 @Component({
     selector: 'ngx-app',

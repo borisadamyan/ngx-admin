@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TracerouteService {
   host = '';
 
   constructor(private http: HttpClient) {
     if (location.hostname === 'localhost') {
-      this.host = 'http://localhost:9999';
+      this.host = 'http://localhost:9998';
     }
   }
 

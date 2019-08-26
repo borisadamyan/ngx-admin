@@ -18,3 +18,27 @@
     }
   }
 }
+
+a {
+  text-decoration: none;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+
+  .icon-container {
+    padding: 25px 0;
+    text-align: center;
+    flex: 1;
+
+    nb-icon {
+      font-size: 40px;
+    }
+
+  }
+
+  .details {
+    flex: 2;
+  }
+}

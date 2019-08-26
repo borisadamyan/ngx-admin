@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header>MTR</nb-card-header>
+      <nb-card-body>
+        <form class="form-inline" #f3="ngForm" (ngSubmit)="onSubmitMtr(f3)">
+              <input type="text" nbInput fullWidth name="url-mtr" placeholder="Page or ip address" ngModel>
+              <button nbButton [disabled]="lockBtnMtr" type="submit">Start</button>
+              <button nbButton [disabled]="!lockBtnMtr" type="button" (click)="stopActionMtr()">Stop</button>
+            </form>
+      </nb-card-body>
+    </nb-card>
+    <nb-card [nbSpinner]="loadingMTR">
+      <nb-card-header>MTR</nb-card-header>
+      <div class="row">
+        <div class="col col-12 ">
+          <div class="mtrSection">
+            <h2></h2>
+            <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+          </div>
+        </div>
+      </div>
+    </nb-card>
+  </div>
+</div>

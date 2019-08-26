@@ -4,8 +4,7 @@ import {HttpClient} from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class PingService {
-
+export class MtrService {
   host = '';
 
   constructor(private http: HttpClient) {
@@ -14,7 +13,7 @@ export class PingService {
     }
   }
 
-  ping(data) {
-    return this.http.post(this.host + '/ping', {data});
+  mtr(data) {
+    return this.http.post(this.host + '/mtr', {data});
   }
 }

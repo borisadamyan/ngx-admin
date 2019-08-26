@@ -1,12 +1,18 @@
 <div class="row">
-    <div class="col-12">
-        <nb-card>
-            <nb-card-header>Line</nb-card-header>
-            <nb-card-body>
-                <ngx-ops-chartjs-line
-                  [chartData]="chartData"
-                ></ngx-ops-chartjs-line>
-            </nb-card-body>
-        </nb-card>
-    </div>
+  <div class="col-xxxl-3 col-md-6" *ngFor="let app of application">
+    <a [routerLink]="app.link">
+      <nb-card>
+        <div class="box">
+          <div class="icon-container" [style.background]="app.bg">
+            <nb-icon icon="{{ app.icon }}">
+              <ng-content></ng-content>
+            </nb-icon>
+          </div>
+          <div class="details">
+            <div class="title h3 text-center">{{ app.title }}</div>
+          </div>
+        </div>
+      </nb-card>
+    </a>
+  </div>
 </div>
